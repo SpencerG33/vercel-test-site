@@ -59,86 +59,32 @@ const personas = [
   },
 ];
 
-const articles = [
-  {
-    id: 1,
-    title: 'Week 14 Recap: The Road to the Playoffs Is Paved With Questionable Starts',
-    excerpt: "In what may go down as the most chaotic fantasy week of the season, three playoff seeds changed hands and Love Chasing Hookers somehow dodged elimination — again. Big Rick breaks it all down.",
-    category: 'WEEKLY RECAP',
-    badge: 'badge-blue',
-    authorId: 'bigrick',
-    date: 'Dec 15, 2025',
-    readTime: '4 min read',
-    featured: true,
-    visualLabel: 'WEEK 14',
-    visualSub: 'RECAP',
-  },
-  {
-    id: 2,
-    title: 'Power Rankings: The Top of the League Has Never Looked This Shaky',
-    excerpt: "Three weeks from the playoffs and absolutely nothing is settled. Anita O'Dds runs the numbers and the results are... concerning for everyone at the top.",
-    category: 'POWER RANKINGS',
-    badge: 'badge-gold',
-    authorId: 'anita',
-    date: 'Dec 13, 2025',
-    readTime: '5 min read',
-    featured: false,
-  },
-  {
-    id: 3,
-    title: 'Trade Alert: Indiana Jones Sends Out a Blockbuster. Was It Worth It?',
-    excerpt: "D-Train got the call at 11:42 PM on a Tuesday. Fitzisgod is shaking up his roster heading into the stretch run. The trade grade might surprise you.",
-    category: 'TRADE ANALYSIS',
-    badge: 'badge-purple',
-    authorId: 'dtrain',
-    date: 'Dec 10, 2025',
-    readTime: '3 min read',
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "The Janitor's Corner: This Week's Disaster Award Goes To...",
-    excerpt: "Every week produces a frontrunner for most embarrassing performance. This week the competition was fierce. One team sat a player who dropped 40 points. The Janitor is here to document it.",
-    category: "LOSER'S CORNER",
-    badge: 'badge-red',
-    authorId: 'janitor',
-    date: 'Dec 12, 2025',
-    readTime: '2 min read',
-    featured: false,
-  },
-  {
-    id: 5,
-    title: 'Waiver Wire Priorities for Week 15: Do Not Sleep on These Adds',
-    excerpt: "With injuries piling up and the playoff push heating up, Coach T has five names you need to know before waivers run. One of them might win you the championship.",
-    category: 'WAIVER WIRE',
-    badge: 'badge-green',
-    authorId: 'coach',
-    date: 'Dec 14, 2025',
-    readTime: '3 min read',
-    featured: false,
-  },
-  {
-    id: 6,
-    title: 'The Backdoor Grind Gang Division Is a War Zone With Three Weeks Left',
-    excerpt: "Three teams. One playoff spot. Zero mercy. The division standings entering the final stretch have never been closer — and the tiebreakers could decide everything.",
-    category: 'STANDINGS',
-    badge: 'badge-teal',
-    authorId: 'bigrick',
-    date: 'Dec 11, 2025',
-    readTime: '4 min read',
-    featured: false,
-  },
-];
+// Articles are loaded from Supabase via /api/articles — see loadArticles()
+let articles = [];
 
 function getPersona(id) {
   return personas.find(p => p.id === id) || personas[0];
 }
 
+function formatDate(str) {
+  return new Date(str).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function normalizeArticle(a) {
+  return {
+    ...a,
+    authorId: a.author_id || a.authorId,
+    date: a.published_at ? formatDate(a.published_at) : (a.date || ''),
+    readTime: a.readTime || '3 min read',
+  };
+}
+
 function renderFeaturedArticle() {
   const el = document.getElementById('featured-article');
   if (!el) return;
-  const article = articles.find(a => a.featured);
-  if (!article) return;
+  const raw = articles[0];
+  if (!raw) return;
+  const article = normalizeArticle(raw);
   const author = getPersona(article.authorId);
 
   el.innerHTML = `
@@ -170,10 +116,11 @@ function renderFeaturedArticle() {
 function renderArticles(filter) {
   const grid = document.getElementById('articles-grid');
   if (!grid) return;
-  const pool = articles.filter(a => !a.featured);
+  const pool = articles.slice(1); // first article is featured
   const list = (!filter || filter === 'ALL') ? pool : pool.filter(a => a.category === filter);
 
-  grid.innerHTML = list.map(a => {
+  grid.innerHTML = list.map(raw => {
+    const a = normalizeArticle(raw);
     const author = getPersona(a.authorId);
     return `
       <div class="article-card">
@@ -198,7 +145,7 @@ function renderArticles(filter) {
 function renderFilters() {
   const el = document.getElementById('category-filters');
   if (!el) return;
-  const cats = ['ALL', ...new Set(articles.filter(a => !a.featured).map(a => a.category))];
+  const cats = ['ALL', ...new Set(articles.slice(1).map(a => a.category))];
   el.innerHTML = cats.map((c, i) =>
     `<button class="filter-btn${i === 0 ? ' active' : ''}" data-cat="${c}">${c}</button>`
   ).join('');
@@ -282,6 +229,17 @@ function renderPersonas() {
   `).join('');
 }
 
+async function loadArticles() {
+  try {
+    const res = await fetch('/api/articles');
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) articles = data;
+  } catch (e) {
+    console.warn('Could not load articles from API, using fallback:', e.message);
+  }
+}
+
 async function fetchLeagueData() {
   try {
     const [lRes, uRes, rRes] = await Promise.all([
@@ -298,6 +256,7 @@ async function fetchLeagueData() {
 }
 
 async function init() {
+  await loadArticles();
   renderFeaturedArticle();
   renderArticles();
   renderFilters();

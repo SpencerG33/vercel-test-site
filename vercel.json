@@ -1,6 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "**/*", "use": "@vercel/static" }
+  "crons": [
+    {
+      "path": "/api/generate",
+      "schedule": "0 14 * * 1-5"
+    }
   ]
 }
