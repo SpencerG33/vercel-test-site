@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rules & History — Tapwatr Dynasty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── RULES PAGE ─────────────────────────────── */
+    .rules-section { padding: 2.5rem 0; border-top: 1px solid var(--border); }
+
+    /* Champion cards */
+    .champs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .champ-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .champ-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+    .champ-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .champ-card.gold::before   { background: linear-gradient(90deg, var(--gold), transparent); }
+    .champ-card.silver::before { background: linear-gradient(90deg, #94a3b8, transparent); }
+    .champ-card.bronze::before { background: linear-gradient(90deg, #cd7c2f, transparent); }
+    .champ-trophy {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+    .champ-season {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .champ-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .champ-owner { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .champ-record {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+    .champ-pending {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
+
+    /* Rules info grid */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .rules-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .rules-card-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .rules-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .rules-row:last-child { border-bottom: none; }
+    .rules-row-label { color: var(--text-muted); }
+    .rules-row-value { font-weight: 600; color: var(--text); text-align: right; }
+    .rules-row-value.green { color: var(--green); }
+    .rules-row-value.gold  { color: var(--gold); }
+
+    /* Scoring table */
+    .scoring-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .scoring-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .scoring-card-header {
+      padding: 0.75rem 1.25rem;
+      background: var(--bg-raised);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .scoring-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .scoring-item:last-child { border-bottom: none; }
+    .scoring-item-label { color: var(--text-muted); }
+    .scoring-item-value {
+      font-weight: 700;
+      font-size: 0.85rem;
+      font-family: var(--font-display);
+      letter-spacing: 0.04em;
+    }
+    .scoring-item-value.pos { color: var(--green); }
+    .scoring-item-value.neg { color: var(--red); }
+
+    /* Roster positions */
+    .positions-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .pos-chip {
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .pos-QB  { background: rgba(91,156,246,0.15);  color: var(--blue); }
+    .pos-WR  { background: rgba(34,211,116,0.15);  color: var(--green); }
+    .pos-RB  { background: rgba(245,185,66,0.15);  color: var(--gold); }
+    .pos-TE  { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .pos-FLEX      { background: rgba(45,212,191,0.15); color: var(--teal); }
+    .pos-SUPER_FLEX{ background: rgba(248,113,113,0.15); color: var(--red); }
+    .pos-BN  { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+    .pos-IR  { background: rgba(255,255,255,0.04); color: var(--text-dim); }
+    .pos-K   { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+    .pos-DEF { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+
+    /* Records section */
+    .records-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .record-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .record-category {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .record-value {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      letter-spacing: 0.05em;
+      color: var(--green);
+      margin-bottom: 0.25rem;
+    }
+    .record-holder { font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+    .record-detail { font-size: 0.72rem; color: var(--text-muted); }
+    .record-pending { color: var(--text-dim); font-size: 0.75rem; font-style: italic; }
+
+    @media (max-width: 900px) {
+      .champs-grid   { grid-template-columns: 1fr; }
+      .scoring-grid  { grid-template-columns: 1fr 1fr; }
+      .records-grid  { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .rules-grid    { grid-template-columns: 1fr; }
+      .scoring-grid  { grid-template-columns: 1fr; }
+      .records-grid  { grid-template-columns: 1fr 1fr; }
+      .champ-card    { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticker">
+    <div class="ticker-label">TAPWATR DYNASTY</div>
+    <div class="ticker-track">
+      <div class="ticker-content">
+        <span>RULES & HISTORY</span><span class="dot">·</span>
+        <span>KNOW THE CODE</span><span class="dot">·</span>
+        <span>TAPWATR DYNASTY</span><span class="dot">·</span>
+        <span>RULES & HISTORY</span><span class="dot">·</span>
+        <span>KNOW THE CODE</span><span class="dot">·</span>
+        <span>TAPWATR DYNASTY</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">
+        <div class="logo-icon">TD</div>
+        <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+      </a>
+      <nav>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about.html" class="nav-link">Writers</a>
+        <a href="/analytics.html" class="nav-link">Analytics</a>
+        <a href="/rules.html" class="nav-link active">Rules</a>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="/">Home</a>
+    <a href="/about.html">Writers</a>
+    <a href="/analytics.html">Analytics</a>
+    <a href="/rules.html">Rules</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-label">THE RULEBOOK</div>
+      <h1 class="page-title">RULES &amp;<br><span style="color:var(--green)">HISTORY</span></h1>
+      <p class="page-desc">How Tapwatr Dynasty works, what it costs to win, and who's already done it. Know the rules. Respect the game.</p>
+    </div>
+  </section>
+
+  <!-- CHAMPIONS -->
+  <section class="rules-section">
+    <div class="container">
+      <div class="section-label">THE TROPHY CASE</div>
+      <h2 class="section-title" style="margin-bottom:0.5rem">PREVIOUS CHAMPIONS</h2>
+      <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:0">The names etched into dynasty lore. Updated each season.</p>
+      <div class="champs-grid" id="champs-grid">
+        <!-- Filled dynamically or by hand below -->
+        <div class="champ-card gold">
+          <div class="champ-trophy">🏆</div>
+          <div class="champ-season">SEASON 3 — 2024</div>
+          <div class="champ-pending">COMING SOON</div>
+          <div class="champ-record" style="margin-top:.5rem">Fill in with actual data</div>
+        </div>
+        <div class="champ-card silver">
+          <div class="champ-trophy">🥈</div>
+          <div class="champ-season">SEASON 2 — 2023</div>
+          <div class="champ-pending">COMING SOON</div>
+          <div class="champ-record" style="margin-top:.5rem">Fill in with actual data</div>
+        </div>
+        <div class="champ-card bronze">
+          <div class="champ-trophy">🥉</div>
+          <div class="champ-season">SEASON 1 — 2022</div>
+          <div class="champ-pending">COMING SOON</div>
+          <div class="champ-record" style="margin-top:.5rem">Fill in with actual data</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAGUE FORMAT -->
+  <section class="rules-section">
+    <div class="container">
+      <div class="section-label">THE FORMAT</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">LEAGUE STRUCTURE</h2>
+      <div class="rules-grid">
+        <div class="rules-card">
+          <div class="rules-card-title">LEAGUE FORMAT</div>
+          <div class="rules-row"><span class="rules-row-label">Format</span><span class="rules-row-value green">Dynasty</span></div>
+          <div class="rules-row"><span class="rules-row-label">Platform</span><span class="rules-row-value">Sleeper</span></div>
+          <div class="rules-row"><span class="rules-row-label">Teams</span><span class="rules-row-value">12</span></div>
+          <div class="rules-row"><span class="rules-row-label">Divisions</span><span class="rules-row-value">4</span></div>
+          <div class="rules-row"><span class="rules-row-label">Playoff Teams</span><span class="rules-row-value" id="playoff-teams">Loading...</span></div>
+          <div class="rules-row"><span class="rules-row-label">Playoff Start</span><span class="rules-row-value" id="playoff-week">Loading...</span></div>
+          <div class="rules-row"><span class="rules-row-label">Trade Deadline</span><span class="rules-row-value" id="trade-deadline">Loading...</span></div>
+          <div class="rules-row"><span class="rules-row-label">Waiver Type</span><span class="rules-row-value" id="waiver-type">Loading...</span></div>
+        </div>
+        <div class="rules-card">
+          <div class="rules-card-title">ROOKIE DRAFT</div>
+          <div class="rules-row"><span class="rules-row-label">Format</span><span class="rules-row-value">Linear Snake (1→12, repeat)</span></div>
+          <div class="rules-row"><span class="rules-row-label">Rounds</span><span class="rules-row-value">5</span></div>
+          <div class="rules-row"><span class="rules-row-label">Total Picks</span><span class="rules-row-value">60</span></div>
+          <div class="rules-row"><span class="rules-row-label">Eligible Players</span><span class="rules-row-value">Rookies only</span></div>
+          <div class="rules-row"><span class="rules-row-label">Picks Tradeable</span><span class="rules-row-value green">Yes</span></div>
+          <div class="rules-row"><span class="rules-row-label">2026 Status</span><span class="rules-row-value green">LIVE — Round 4</span></div>
+          <div class="rules-row"><span class="rules-row-label">Picks Made</span><span class="rules-row-value">37 / 60</span></div>
+          <div class="rules-row"><span class="rules-row-label">Next Season</span><span class="rules-row-value">Post-2026 NFL Draft</span></div>
+        </div>
+      </div>
+
+      <!-- Roster Positions -->
+      <div class="rules-card" style="margin-top:1.25rem">
+        <div class="rules-card-title">ROSTER POSITIONS</div>
+        <div id="roster-positions">
+          <div style="color:var(--text-muted);font-size:0.875rem">Loading from Sleeper...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCORING -->
+  <section class="rules-section">
+    <div class="container">
+      <div class="section-label">THE SCORING</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">SCORING SETTINGS</h2>
+      <div class="scoring-grid" id="scoring-grid">
+        <div class="scoring-card">
+          <div class="scoring-card-header">PASSING</div>
+          <div class="scoring-item"><span class="scoring-item-label">Passing Yards</span><span class="scoring-item-value pos" id="s-pass-yd">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Passing TD</span><span class="scoring-item-value pos" id="s-pass-td">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Interception</span><span class="scoring-item-value neg" id="s-pass-int">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">2-Point Conversion</span><span class="scoring-item-value pos" id="s-pass-2pt">...</span></div>
+        </div>
+        <div class="scoring-card">
+          <div class="scoring-card-header">RUSHING &amp; RECEIVING</div>
+          <div class="scoring-item"><span class="scoring-item-label">Rushing Yards</span><span class="scoring-item-value pos" id="s-rush-yd">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Rushing TD</span><span class="scoring-item-value pos" id="s-rush-td">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Reception</span><span class="scoring-item-value pos" id="s-rec">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Receiving Yards</span><span class="scoring-item-value pos" id="s-rec-yd">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Receiving TD</span><span class="scoring-item-value pos" id="s-rec-td">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">2-Point Conversion</span><span class="scoring-item-value pos" id="s-rush-2pt">...</span></div>
+        </div>
+        <div class="scoring-card">
+          <div class="scoring-card-header">MISC</div>
+          <div class="scoring-item"><span class="scoring-item-label">Fumble Lost</span><span class="scoring-item-value neg" id="s-fum-lost">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Special Teams TD</span><span class="scoring-item-value pos" id="s-st-td">...</span></div>
+          <div class="scoring-item"><span class="scoring-item-label">Return TD</span><span class="scoring-item-value pos" id="s-ret-td">...</span></div>
+          <div id="s-bonus-rows"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAGUE RECORDS -->
+  <section class="rules-section">
+    <div class="container">
+      <div class="section-label">THE VAULT</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">ALL-TIME RECORDS</h2>
+      <div class="records-grid">
+        <div class="record-card">
+          <div class="record-category">MOST POINTS — SINGLE WEEK</div>
+          <div class="record-value">—</div>
+          <div class="record-holder">TBD</div>
+          <div class="record-detail record-pending">Fill in with actual data</div>
+        </div>
+        <div class="record-card">
+          <div class="record-category">HIGHEST WIN %  — SINGLE SEASON</div>
+          <div class="record-value">—</div>
+          <div class="record-holder">TBD</div>
+          <div class="record-detail record-pending">Fill in with actual data</div>
+        </div>
+        <div class="record-card">
+          <div class="record-category">MOST CHAMPIONSHIPS</div>
+          <div class="record-value">—</div>
+          <div class="record-holder">TBD</div>
+          <div class="record-detail record-pending">Fill in with actual data</div>
+        </div>
+        <div class="record-card">
+          <div class="record-category">MOST POINTS — FULL SEASON</div>
+          <div class="record-value">—</div>
+          <div class="record-holder">TBD</div>
+          <div class="record-detail record-pending">Fill in with actual data</div>
+        </div>
+        <div class="record-card">
+          <div class="record-category">LONGEST WIN STREAK</div>
+          <div class="record-value">—</div>
+          <div class="record-holder">TBD</div>
+          <div class="record-detail record-pending">Fill in with actual data</div>
+        </div>
+        <div class="record-card">
+          <div class="record-category">MOST TRADES — SINGLE SEASON</div>
+          <div class="record-value">—</div>
+          <div class="record-holder">TBD</div>
+          <div class="record-detail record-pending">Fill in with actual data</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="logo">
+          <div class="logo-icon">TD</div>
+          <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+        </div>
+        <p>Not responsible for broken friendships, damaged egos, or irrational player loyalty.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/about.html">Writers</a>
+          <a href="/analytics.html">Analytics</a>
+          <a href="/rules.html">Rules</a>
+        </div>
+        <p class="footer-credit">Powered by Sleeper Fantasy · Built with ☕ and spite</p>
+      </div>
+    </div>
+  </footer>
+
+<script>
+const LEAGUE_ID = '1316190343179284480';
+const SLEEPER_API = 'https://api.sleeper.app/v1';
+
+function set(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+function fmtYds(val) {
+  if (!val) return '0';
+  const ptsPerYd = parseFloat(val);
+  if (ptsPerYd === 0) return '0';
+  const ydsPerPt = Math.round(1 / ptsPerYd);
+  return `${ydsPerPt > 1 ? '1 pt / ' + ydsPerPt + ' yds' : ptsPerYd + ' pt/yd'}`;
+}
+
+function fmtPts(val) {
+  if (val === undefined || val === null) return '—';
+  const n = parseFloat(val);
+  if (n > 0) return '+' + n;
+  return '' + n;
+}
+
+const WAIVER_TYPES = { 0: 'None', 1: 'FAAB', 2: 'FAAB', 3: 'Rolling' };
+
+async function loadLeagueData() {
+  try {
+    const league = await fetch(`${SLEEPER_API}/league/${LEAGUE_ID}`).then(r => r.json());
+    const s = league.settings || {};
+    const sc = league.scoring_settings || {};
+
+    // Format info
+    set('playoff-teams',  s.playoff_teams   || '—');
+    set('playoff-week',   s.playoff_week_start ? `Week ${s.playoff_week_start}` : '—');
+    set('trade-deadline', s.trade_deadline   ? `Week ${s.trade_deadline}` : '—');
+    set('waiver-type',    WAIVER_TYPES[s.waiver_type] || 'Standard');
+
+    // Scoring
+    set('s-pass-yd',   fmtYds(sc.pass_yd));
+    set('s-pass-td',   fmtPts(sc.pass_td));
+    set('s-pass-int',  fmtPts(sc.pass_int));
+    set('s-pass-2pt',  fmtPts(sc.pass_2pt));
+    set('s-rush-yd',   fmtYds(sc.rush_yd));
+    set('s-rush-td',   fmtPts(sc.rush_td));
+    set('s-rec',       fmtPts(sc.rec));
+    set('s-rec-yd',    fmtYds(sc.rec_yd));
+    set('s-rec-td',    fmtPts(sc.rec_td));
+    set('s-rush-2pt',  fmtPts(sc.rush_2pt !== undefined ? sc.rush_2pt : sc.rec_2pt));
+    set('s-fum-lost',  fmtPts(sc.fum_lost));
+    set('s-st-td',     fmtPts(sc.st_td));
+    set('s-ret-td',    fmtPts(sc.bonus_rec_te || sc.ret_yd_td));
+
+    // Bonus scoring (TE premium etc)
+    const bonusRows = [];
+    if (sc.bonus_rec_te)   bonusRows.push(['TE Reception Bonus', '+' + sc.bonus_rec_te]);
+    if (sc.bonus_rec_wr)   bonusRows.push(['WR Reception Bonus', '+' + sc.bonus_rec_wr]);
+    if (sc.bonus_rec_rb)   bonusRows.push(['RB Reception Bonus', '+' + sc.bonus_rec_rb]);
+    if (sc.bonus_pass_yd_300) bonusRows.push(['300+ Pass Yd Bonus', '+' + sc.bonus_pass_yd_300]);
+    if (sc.bonus_rush_yd_100) bonusRows.push(['100+ Rush Yd Bonus', '+' + sc.bonus_rush_yd_100]);
+    if (sc.bonus_rec_yd_100)  bonusRows.push(['100+ Rec Yd Bonus',  '+' + sc.bonus_rec_yd_100]);
+
+    const bonusEl = document.getElementById('s-bonus-rows');
+    if (bonusEl && bonusRows.length) {
+      bonusEl.innerHTML = bonusRows.map(([label, val]) => `
+        <div class="scoring-item">
+          <span class="scoring-item-label">${label}</span>
+          <span class="scoring-item-value pos">${val}</span>
+        </div>`).join('');
+    }
+
+    // Roster positions
+    const positions = league.roster_positions || [];
+    const counts = {};
+    positions.forEach(p => { counts[p] = (counts[p] || 0) + 1; });
+    const order = ['QB','WR','RB','TE','FLEX','SUPER_FLEX','K','DEF','BN','IR'];
+    const posEl = document.getElementById('roster-positions');
+    if (posEl) {
+      posEl.innerHTML = `<div class="positions-wrap">` +
+        order.filter(p => counts[p]).map(p => {
+          const n = counts[p];
+          const label = p === 'SUPER_FLEX' ? 'SFLEX' : p === 'FLEX' ? 'FLEX' : p;
+          return `<span class="pos-chip pos-${p}" title="${n > 1 ? n + ' ' + p + ' slots' : ''}">${n > 1 ? n + 'x ' : ''}${label}</span>`;
+        }).join('') +
+      `</div>`;
+    }
+
+  } catch (e) {
+    console.error('Rules page: could not load Sleeper data', e);
+    ['playoff-teams','playoff-week','trade-deadline','waiver-type',
+     's-pass-yd','s-pass-td','s-pass-int','s-pass-2pt',
+     's-rush-yd','s-rush-td','s-rec','s-rec-yd','s-rec-td','s-rush-2pt',
+     's-fum-lost','s-st-td','s-ret-td'].forEach(id => set(id, '—'));
+  }
+}
+
+loadLeagueData();
+
+// Mobile nav
+(function() {
+  var t = document.getElementById('nav-toggle');
+  var n = document.getElementById('mobile-nav');
+  t.addEventListener('click', function() {
+    t.classList.toggle('open');
+    n.classList.toggle('open');
+    document.body.classList.toggle('nav-open');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics — Tapwatr Dynasty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    .analytics-hero { padding: 4rem 0 2rem; }
+    .analytics-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .a-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .a-pill strong { color: var(--text); }
+    .a-pill.green { border-color: rgba(34,211,116,0.35); }
+    .a-pill.green strong { color: var(--green); }
+
+    .chart-section { padding: 2.5rem 0; border-top: 1px solid var(--border); }
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .charts-row.full { grid-template-columns: 1fr; }
+    .charts-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .chart-card-top {
+      height: 3px;
+    }
+    .chart-card-body { padding: 1.5rem; }
+    .chart-card-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+    .chart-card-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .chart-wrap { position: relative; }
+    .chart-wrap canvas { display: block; }
+
+    .no-data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 2rem;
+    }
+    .no-data .nd-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .accent-green  { background: linear-gradient(90deg, var(--green), transparent); }
+    .accent-blue   { background: linear-gradient(90deg, var(--blue), transparent); }
+    .accent-gold   { background: linear-gradient(90deg, var(--gold), transparent); }
+    .accent-purple { background: linear-gradient(90deg, var(--purple), transparent); }
+    .accent-teal   { background: linear-gradient(90deg, var(--teal), transparent); }
+    .accent-red    { background: linear-gradient(90deg, var(--red), transparent); }
+
+    @media (max-width: 900px) {
+      .charts-row { grid-template-columns: 1fr; }
+      .charts-row.three { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .analytics-hero { padding: 2.5rem 0 1.5rem; }
+      .analytics-pills { gap: 0.5rem; }
+      .a-pill { font-size: 0.64rem; padding: 0.3rem 0.75rem; }
+      .charts-row.three { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticker">
+    <div class="ticker-label">TAPWATR DYNASTY</div>
+    <div class="ticker-track">
+      <div class="ticker-content">
+        <span>LIVE ANALYTICS</span><span class="dot">·</span>
+        <span>SLEEPER DATA</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+        <span>LIVE ANALYTICS</span><span class="dot">·</span>
+        <span>SLEEPER DATA</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">
+        <div class="logo-icon">TD</div>
+        <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+      </a>
+      <nav>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about.html" class="nav-link">Writers</a>
+        <a href="/analytics.html" class="nav-link active">Analytics</a>
+        <a href="/rules.html" class="nav-link">Rules</a>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="/">Home</a>
+    <a href="/about.html">Writers</a>
+    <a href="/analytics.html">Analytics</a>
+    <a href="/rules.html">Rules</a>
+  </div>
+
+  <section class="analytics-hero">
+    <div class="container">
+      <div class="live-badge"><span class="live-dot"></span>LIVE — PULLING FROM SLEEPER</div>
+      <div class="section-label">LEAGUE ANALYTICS</div>
+      <h1 class="page-title">THE<br><span style="color:var(--green)">NUMBERS</span></h1>
+      <p class="page-desc">Live stats from Sleeper. Records, scoring, draft capital, and trade activity — every number that matters in dynasty.</p>
+      <div class="analytics-pills">
+        <div class="a-pill green"><strong>LIVE</strong> — 2026 DRAFT IN PROGRESS</div>
+        <div class="a-pill">ROUND <strong>4</strong> OF 5</div>
+        <div class="a-pill"><strong>37</strong> / 60 PICKS MADE</div>
+        <div class="a-pill"><strong>12</strong> TEAMS · <strong>4</strong> DIVISIONS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STANDINGS -->
+  <section class="chart-section">
+    <div class="container">
+      <div class="section-label">RECORDS</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">STANDINGS</h2>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-top accent-green"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">WIN-LOSS RECORD</div>
+            <div class="chart-card-sub" id="sub-standings">Loading from Sleeper...</div>
+            <div class="chart-wrap" id="wrap-standings" style="height:420px">
+              <div class="no-data"><div class="nd-title">LOADING</div><div>Fetching live data...</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-top accent-blue"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">WIN PERCENTAGE</div>
+            <div class="chart-card-sub">Ranked best to worst — live season data</div>
+            <div class="chart-wrap" id="wrap-winpct" style="height:420px">
+              <div class="no-data"><div class="nd-title">LOADING</div><div>Fetching live data...</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCORING -->
+  <section class="chart-section">
+    <div class="container">
+      <div class="section-label">SCORING</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">POINTS ON THE BOARD</h2>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-top accent-blue"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">POINTS SCORED</div>
+            <div class="chart-card-sub">Total points for — ranked high to low</div>
+            <div class="chart-wrap" id="wrap-pts" style="height:320px">
+              <div class="no-data"><div class="nd-title">LOADING</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-top accent-red"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">POINTS DIFFERENTIAL</div>
+            <div class="chart-card-sub">Points For minus Points Against — positive is good</div>
+            <div class="chart-wrap" id="wrap-diff" style="height:320px">
+              <div class="no-data"><div class="nd-title">LOADING</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DRAFT CAPITAL -->
+  <section class="chart-section">
+    <div class="container">
+      <div class="section-label">2026 ROOKIE DRAFT</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">DRAFT CAPITAL</h2>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-top accent-gold"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">PICKS PER TEAM</div>
+            <div class="chart-card-sub">Through pick 37 of 60 — gold = 1st round picks, dim = other rounds</div>
+            <div class="chart-wrap" id="wrap-draft" style="height:360px"></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-top accent-gold"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">FIRST-ROUND PICKS</div>
+            <div class="chart-card-sub">1st round picks only — three teams entered holding three each</div>
+            <div class="chart-wrap" id="wrap-r1" style="height:360px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSACTIONS -->
+  <section class="chart-section">
+    <div class="container">
+      <div class="section-label">MARKET ACTIVITY</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem">TRANSACTIONS</h2>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-top accent-purple"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">TRADE ACTIVITY</div>
+            <div class="chart-card-sub" id="sub-trades">Trades per manager this season</div>
+            <div class="chart-wrap" id="wrap-trades" style="height:320px">
+              <div class="no-data"><div class="nd-title">LOADING</div><div>Counting trades...</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-top accent-teal"></div>
+          <div class="chart-card-body">
+            <div class="chart-card-title">WAIVER &amp; FA ACTIVITY</div>
+            <div class="chart-card-sub" id="sub-waivers">Roster moves per manager this season</div>
+            <div class="chart-wrap" id="wrap-waivers" style="height:320px">
+              <div class="no-data"><div class="nd-title">LOADING</div><div>Counting moves...</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="logo">
+          <div class="logo-icon">TD</div>
+          <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+        </div>
+        <p>Not responsible for broken friendships, damaged egos, or irrational player loyalty.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/about.html">Writers</a>
+          <a href="/analytics.html">Analytics</a>
+          <a href="/rules.html">Rules</a>
+        </div>
+        <p class="footer-credit">Data via Sleeper API · Built with ☕ and spite</p>
+      </div>
+    </div>
+  </footer>
+
+<script>
+const LEAGUE_ID = '1316190343179284480';
+const SLEEPER_API = 'https://api.sleeper.app/v1';
+
+// Hardcoded 2026 draft data (through pick 37)
+const DRAFT_2026 = [
+  { team: 'Elic my Loveland',       total: 7, r1: 3 },
+  { team: 'Vivek Ranadivé',         total: 6, r1: 3 },
+  { team: 'The Mandalorian Dentist',total: 5, r1: 1 },
+  { team: 'mitchdavisss',           total: 4, r1: 3 },
+  { team: 'RIP OJ',                 total: 3, r1: 1 },
+  { team: 'Indiana Jones',          total: 3, r1: 1 },
+  { team: 'bigspence',              total: 3, r1: 0 },
+  { team: 'Love Chasing Hookers',   total: 2, r1: 0 },
+  { team: 'GrubDubz',              total: 1, r1: 0 },
+  { team: "Gym Class Hero's",       total: 1, r1: 0 },
+  { team: 'Playbook of Eli',        total: 1, r1: 0 },
+  { team: 'Mr. Unlimited 2.0',      total: 1, r1: 0 },
+];
+
+// Chart.js global defaults
+Chart.defaults.color = '#7a8baa';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+Chart.defaults.font.size = 12;
+
+const TIP = {
+  backgroundColor: '#0d1a30',
+  borderColor: 'rgba(255,255,255,0.15)',
+  borderWidth: 1,
+  titleColor: '#e8eeff',
+  bodyColor: '#7a8baa',
+  padding: 12,
+  cornerRadius: 8,
+};
+const SCALE_X = {
+  grid: { color: 'rgba(255,255,255,0.05)' },
+  ticks: { color: '#7a8baa' },
+  border: { color: 'rgba(255,255,255,0.08)' },
+};
+const SCALE_Y = { ...SCALE_X };
+
+function truncate(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+
+function setWrap(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+}
+
+function makeCanvas(wrapperId) {
+  const wrap = document.getElementById(wrapperId);
+  if (!wrap) return null;
+  wrap.innerHTML = '';
+  const canvas = document.createElement('canvas');
+  wrap.appendChild(canvas);
+  return canvas.getContext('2d');
+}
+
+// ── DRAFT CAPITAL CHARTS (always available) ─────────────────────
+function buildDraftCharts() {
+  const sorted = [...DRAFT_2026].sort((a, b) => b.total - a.total);
+
+  // Picks per team
+  const ctx1 = makeCanvas('wrap-draft');
+  if (ctx1) {
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: sorted.map(d => truncate(d.team, 18)),
+        datasets: [
+          {
+            label: '1st Round',
+            data: sorted.map(d => d.r1),
+            backgroundColor: '#f5b942',
+            borderRadius: 4,
+            borderSkipped: false,
+          },
+          {
+            label: 'Rounds 2–5',
+            data: sorted.map(d => d.total - d.r1),
+            backgroundColor: 'rgba(245,185,66,0.28)',
+            borderRadius: 4,
+            borderSkipped: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true, position: 'top', labels: { color: '#7a8baa', boxWidth: 12, padding: 14 } },
+          tooltip: {
+            ...TIP,
+            callbacks: {
+              title: items => sorted[items[0].dataIndex].team,
+              afterBody: items => `Total picks: ${sorted[items[0].dataIndex].total} | 1st round: ${sorted[items[0].dataIndex].r1}`,
+            }
+          }
+        },
+        scales: {
+          x: { ...SCALE_X, stacked: true, ticks: { ...SCALE_X.ticks, font: { size: 10 }, maxRotation: 40 } },
+          y: { ...SCALE_Y, stacked: true, beginAtZero: true, ticks: { ...SCALE_Y.ticks, stepSize: 1 } }
+        }
+      }
+    });
+  }
+
+  // First-round picks only
+  const r1Sorted = [...DRAFT_2026].sort((a, b) => b.r1 - a.r1);
+  const ctx2 = makeCanvas('wrap-r1');
+  if (ctx2) {
+    const colors = r1Sorted.map(d => d.r1 === 3 ? '#f5b942' : d.r1 === 1 ? 'rgba(245,185,66,0.5)' : 'rgba(245,185,66,0.12)');
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: r1Sorted.map(d => truncate(d.team, 18)),
+        datasets: [{
+          label: 'First-Round Picks',
+          data: r1Sorted.map(d => d.r1),
+          backgroundColor: colors,
+          borderRadius: 4,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...TIP, callbacks: { title: items => r1Sorted[items[0].dataIndex].team } }
+        },
+        scales: {
+          x: { ...SCALE_X, ticks: { ...SCALE_X.ticks, font: { size: 10 }, maxRotation: 40 } },
+          y: { ...SCALE_Y, beginAtZero: true, ticks: { ...SCALE_Y.ticks, stepSize: 1, max: 3 } }
+        }
+      }
+    });
+  }
+}
+
+// ── SEASON CHARTS ────────────────────────────────────────────────
+function buildSeasonCharts(teams) {
+  const hasData = teams.some(t => t.wins > 0 || t.losses > 0 || t.fpts > 0);
+  const noDataHtml = `<div class="no-data"><div class="nd-title">OFFSEASON</div><div>Regular season begins September 2026</div><div style="font-size:0.7rem;color:var(--text-dim);margin-top:.25rem">Draft capital &amp; trade charts available above/below</div></div>`;
+
+  if (!hasData) {
+    ['wrap-standings','wrap-winpct','wrap-pts','wrap-diff'].forEach(id => setWrap(id, noDataHtml));
+    document.getElementById('sub-standings').textContent = 'Regular season not yet started — check back September 2026';
+    return;
+  }
+
+  document.getElementById('sub-standings').textContent = `${teams.length} teams — current season`;
+
+  // ── Win-Loss record (horizontal stacked bar)
+  const byWins = [...teams].sort((a, b) => b.wins - a.wins || a.losses - b.losses);
+  const ctx1 = makeCanvas('wrap-standings');
+  if (ctx1) {
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: byWins.map(t => truncate(t.teamName, 22)),
+        datasets: [
+          { label: 'Wins',   data: byWins.map(t => t.wins),   backgroundColor: '#22d374', borderRadius: 3, borderSkipped: false },
+          { label: 'Losses', data: byWins.map(t => t.losses), backgroundColor: 'rgba(248,113,113,0.4)', borderRadius: 3, borderSkipped: false },
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true, position: 'top', labels: { color: '#7a8baa', boxWidth: 12, padding: 14 } },
+          tooltip: { ...TIP, callbacks: { title: items => byWins[items[0].dataIndex].teamName } }
+        },
+        scales: {
+          x: { ...SCALE_X, stacked: true, beginAtZero: true },
+          y: { ...SCALE_Y, stacked: true, ticks: { ...SCALE_Y.ticks, font: { size: 11 } } }
+        }
+      }
+    });
+  }
+
+  // ── Win percentage (horizontal bar)
+  const byWinPct = [...teams].sort((a, b) => {
+    const ta = a.wins + a.losses || 1, tb = b.wins + b.losses || 1;
+    return (b.wins / tb) - (a.wins / ta);
+  });
+  const ctx2 = makeCanvas('wrap-winpct');
+  if (ctx2) {
+    const pcts = byWinPct.map(t => { const g = t.wins + t.losses || 1; return +(t.wins / g * 100).toFixed(1); });
+    const maxP = Math.max(...pcts);
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: byWinPct.map(t => truncate(t.teamName, 22)),
+        datasets: [{
+          label: 'Win %',
+          data: pcts,
+          backgroundColor: pcts.map(v => `rgba(34,211,116,${0.18 + (v / (maxP || 1)) * 0.72})`),
+          borderRadius: 3,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...TIP, callbacks: { title: items => byWinPct[items[0].dataIndex].teamName, label: items => `${items.raw}% win rate` } }
+        },
+        scales: {
+          x: { ...SCALE_X, min: 0, max: 100, ticks: { ...SCALE_X.ticks, callback: v => v + '%' } },
+          y: { ...SCALE_Y, ticks: { ...SCALE_Y.ticks, font: { size: 11 } } }
+        }
+      }
+    });
+  }
+
+  // ── Points For (vertical bar)
+  const byPts = [...teams].sort((a, b) => b.fpts - a.fpts);
+  const ctx3 = makeCanvas('wrap-pts');
+  if (ctx3) {
+    const maxF = Math.max(...byPts.map(t => t.fpts));
+    new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: byPts.map(t => truncate(t.teamName, 14)),
+        datasets: [{
+          label: 'Points For',
+          data: byPts.map(t => t.fpts.toFixed(2)),
+          backgroundColor: byPts.map(t => `rgba(91,156,246,${0.25 + (t.fpts / (maxF || 1)) * 0.65})`),
+          borderRadius: 4,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...TIP, callbacks: { title: items => byPts[items[0].dataIndex].teamName, label: items => `${(+items.raw).toFixed(2)} pts` } }
+        },
+        scales: {
+          x: { ...SCALE_X, ticks: { ...SCALE_X.ticks, font: { size: 10 }, maxRotation: 40 } },
+          y: { ...SCALE_Y, beginAtZero: false }
+        }
+      }
+    });
+  }
+
+  // ── Points Differential (vertical bar)
+  const byDiff = [...teams].sort((a, b) => (b.fpts - b.fptsAgainst) - (a.fpts - a.fptsAgainst));
+  const ctx4 = makeCanvas('wrap-diff');
+  if (ctx4) {
+    const diffs = byDiff.map(t => +(t.fpts - t.fptsAgainst).toFixed(2));
+    new Chart(ctx4, {
+      type: 'bar',
+      data: {
+        labels: byDiff.map(t => truncate(t.teamName, 14)),
+        datasets: [{
+          label: 'Differential',
+          data: diffs,
+          backgroundColor: diffs.map(d => d >= 0 ? 'rgba(34,211,116,0.68)' : 'rgba(248,113,113,0.58)'),
+          borderRadius: 4,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...TIP, callbacks: { title: items => byDiff[items[0].dataIndex].teamName, label: items => `${items.raw > 0 ? '+' : ''}${items.raw} pts` } }
+        },
+        scales: {
+          x: { ...SCALE_X, ticks: { ...SCALE_X.ticks, font: { size: 10 }, maxRotation: 40 } },
+          y: { ...SCALE_Y }
+        }
+      }
+    });
+  }
+}
+
+// ── TRANSACTION CHARTS ───────────────────────────────────────────
+function buildTxnCharts(teams, tradesByRoster, waiversByRoster) {
+  function buildTxnChart(wrapperId, teams, countMap, label, color, subId) {
+    const data = teams.map(t => ({ team: t.teamName, n: countMap[t.rosterId] || 0 }))
+                      .sort((a, b) => b.n - a.n);
+    const total = data.reduce((s, d) => s + d.n, 0);
+    if (subId) document.getElementById(subId).textContent = `${total} total ${label.toLowerCase()} this season`;
+
+    const ctx = makeCanvas(wrapperId);
+    if (!ctx) return;
+    if (!data.some(d => d.n > 0)) {
+      setWrap(wrapperId, `<div class="no-data"><div class="nd-title">NO DATA</div><div>No ${label.toLowerCase()} found for current season</div></div>`);
+      return;
+    }
+    const maxN = Math.max(...data.map(d => d.n));
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(d => truncate(d.team, 14)),
+        datasets: [{
+          label,
+          data: data.map(d => d.n),
+          backgroundColor: data.map(d => {
+            const r = d.n / (maxN || 1);
+            if (color === 'purple') return `rgba(167,139,250,${0.22 + r * 0.68})`;
+            return `rgba(45,212,191,${0.22 + r * 0.68})`;
+          }),
+          borderRadius: 4,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...TIP, callbacks: { title: items => data[items[0].dataIndex].team } }
+        },
+        scales: {
+          x: { ...SCALE_X, ticks: { ...SCALE_X.ticks, font: { size: 10 }, maxRotation: 40 } },
+          y: { ...SCALE_Y, beginAtZero: true, ticks: { ...SCALE_Y.ticks, stepSize: 1 } }
+        }
+      }
+    });
+  }
+
+  buildTxnChart('wrap-trades',  teams, tradesByRoster,  'Trades',       'purple', 'sub-trades');
+  buildTxnChart('wrap-waivers', teams, waiversByRoster, 'Transactions', 'teal',   'sub-waivers');
+}
+
+// ── MAIN ─────────────────────────────────────────────────────────
+async function init() {
+  buildDraftCharts();
+
+  try {
+    const [users, rosters] = await Promise.all([
+      fetch(`${SLEEPER_API}/league/${LEAGUE_ID}/users`).then(r => r.json()),
+      fetch(`${SLEEPER_API}/league/${LEAGUE_ID}/rosters`).then(r => r.json()),
+    ]);
+
+    const userMap = {};
+    users.forEach(u => { userMap[u.user_id] = u; });
+
+    const teams = rosters.map(r => {
+      const u = userMap[r.owner_id] || {};
+      const s = r.settings || {};
+      return {
+        teamName: (u.metadata && u.metadata.team_name) || u.display_name || 'Unknown',
+        owner: u.display_name || 'Unknown',
+        wins:        s.wins || 0,
+        losses:      s.losses || 0,
+        fpts:        (s.fpts || 0) + (s.fpts_decimal || 0) / 100,
+        fptsAgainst: (s.fpts_against || 0) + (s.fpts_against_decimal || 0) / 100,
+        rosterId:    r.roster_id,
+      };
+    });
+
+    buildSeasonCharts(teams);
+
+    // Fetch transactions weeks 0–20 in parallel
+    const weeks = Array.from({ length: 21 }, (_, i) => i);
+    const txnResults = await Promise.all(
+      weeks.map(w =>
+        fetch(`${SLEEPER_API}/league/${LEAGUE_ID}/transactions/${w}`)
+          .then(r => r.json()).catch(() => [])
+      )
+    );
+
+    const tradesByRoster = {}, waiversByRoster = {};
+    txnResults.flat().forEach(txn => {
+      if (!txn || !txn.type) return;
+      const rids = txn.roster_ids || [];
+      if (txn.type === 'trade') {
+        rids.forEach(rid => { tradesByRoster[rid] = (tradesByRoster[rid] || 0) + 1; });
+      } else if (txn.type === 'waiver' || txn.type === 'free_agent') {
+        rids.forEach(rid => { waiversByRoster[rid] = (waiversByRoster[rid] || 0) + 1; });
+      }
+    });
+
+    buildTxnCharts(teams, tradesByRoster, waiversByRoster);
+
+  } catch (e) {
+    console.error('Analytics error:', e);
+    ['wrap-standings','wrap-winpct','wrap-pts','wrap-diff','wrap-trades','wrap-waivers'].forEach(id => {
+      setWrap(id, '<div class="no-data"><div class="nd-title">ERROR</div><div>Could not load data from Sleeper</div></div>');
+    });
+  }
+}
+
+init();
+
+// Mobile nav
+(function() {
+  var t = document.getElementById('nav-toggle');
+  var n = document.getElementById('mobile-nav');
+  t.addEventListener('click', function() {
+    t.classList.toggle('open');
+    n.classList.toggle('open');
+    document.body.classList.toggle('nav-open');
+  });
+  n.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      t.classList.remove('open');
+      n.classList.remove('open');
+      document.body.classList.remove('nav-open');
+    });
+  });
+})();
+</script>
+</body>
+</html>
