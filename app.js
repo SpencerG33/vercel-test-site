@@ -103,15 +103,29 @@ function renderFeaturedArticle() {
           </div>
         </div>
       </div>
-      <div class="featured-visual">
-        <div class="featured-visual-bg">${article.visualLabel || ''}</div>
+      <div class="featured-visual" style="background: linear-gradient(145deg, ${author.bg} 0%, rgba(0,0,0,0) 70%)">
+        <div class="featured-visual-bg">${article.category || 'TD'}</div>
         <div class="featured-visual-inner">
-          <div class="featured-visual-title" style="color:${author.color}">${article.visualLabel || 'WEEK 14'}</div>
-          <div class="featured-visual-subtitle">${article.visualSub || 'RECAP'}</div>
+          <div class="featured-author-large" style="background:${author.bg};color:${author.color};border:2px solid ${author.color}55">${author.initials}</div>
+          <div class="featured-visual-title" style="color:${author.color}">${author.name}</div>
+          <div class="featured-visual-subtitle">${author.title}</div>
+          <div class="featured-visual-category" style="color:${author.color}">${article.category || ''}</div>
         </div>
       </div>
     </a>
   `;
+}
+
+function badgeToVisualClass(badge) {
+  const map = {
+    'badge-blue': 'card-v-blue',
+    'badge-gold': 'card-v-gold',
+    'badge-purple': 'card-v-purple',
+    'badge-red': 'card-v-red',
+    'badge-green': 'card-v-green',
+    'badge-teal': 'card-v-teal',
+  };
+  return map[badge] || 'card-v-blue';
 }
 
 function renderArticles(filter) {
@@ -124,8 +138,13 @@ function renderArticles(filter) {
     const a = normalizeArticle(raw);
     const author = getPersona(a.authorId);
     const href = a.id ? `/article.html?id=${a.id}` : '#';
+    const visualClass = badgeToVisualClass(a.badge);
     return `
       <a class="article-card" href="${href}" style="text-decoration:none">
+        <div class="article-card-visual ${visualClass}">
+          <div class="article-card-visual-line"></div>
+          <div class="article-card-visual-text">${a.category}</div>
+        </div>
         <div class="article-card-meta">
           <span class="badge ${a.badge}">${a.category}</span>
           <span class="article-card-date">${a.date}</span>

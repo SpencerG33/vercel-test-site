@@ -38,8 +38,17 @@
         <a href="/about.html" class="nav-link active">Writers</a>
         <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="/">Home</a>
+    <a href="/about.html">Writers</a>
+    <a href="/contact.html">Contact</a>
+  </div>
 
   <section class="page-hero">
     <div class="container">
@@ -108,5 +117,16 @@
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    (function() {
+      var toggle = document.getElementById('nav-toggle');
+      var nav = document.getElementById('mobile-nav');
+      toggle.addEventListener('click', function() {
+        toggle.classList.toggle('open');
+        nav.classList.toggle('open');
+        document.body.classList.toggle('nav-open');
+      });
+    })();
+  </script>
 </body>
 </html>
