@@ -55,6 +55,17 @@
     }
     .article-body p { margin-bottom: 1.5rem; }
     .article-body p:last-child { margin-bottom: 0; }
+    .article-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin: 2.5rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .article-body strong { color: var(--text); font-weight: 700; }
+    .article-body em { color: var(--text-muted); font-style: italic; }
     .article-excerpt-lead {
       font-size: 1.2rem;
       color: var(--text);
@@ -160,10 +171,6 @@
 
         document.title = `${article.title} — Tapwatr Dynasty`;
 
-        const bodyHtml = article.content
-          ? article.content.split('\n\n').map(p => `<p>${p}</p>`).join('')
-          : `<p>${article.excerpt}</p>`;
-
         el.innerHTML = `
           <section class="article-page">
             <div class="container">
@@ -180,7 +187,7 @@
                 </div>
               </div>
               <div class="article-excerpt-lead">${article.excerpt}</div>
-              <div class="article-body">${article.content ? bodyHtml : ''}</div>
+              <div class="article-body">${article.content || ''}</div>
             </div>
           </section>
         `;
