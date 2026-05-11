@@ -87,8 +87,9 @@ function renderFeaturedArticle() {
   const article = normalizeArticle(raw);
   const author = getPersona(article.authorId);
 
+  const href = article.id ? `/article.html?id=${article.id}` : '#';
   el.innerHTML = `
-    <div class="featured-card">
+    <a class="featured-card" href="${href}" style="text-decoration:none;color:inherit;display:grid">
       <div class="featured-body">
         <div class="featured-label">FEATURED ARTICLE</div>
         <div style="margin-bottom:1rem"><span class="badge ${article.badge}">${article.category}</span></div>
@@ -109,7 +110,7 @@ function renderFeaturedArticle() {
           <div class="featured-visual-subtitle">${article.visualSub || 'RECAP'}</div>
         </div>
       </div>
-    </div>
+    </a>
   `;
 }
 
@@ -122,8 +123,9 @@ function renderArticles(filter) {
   grid.innerHTML = list.map(raw => {
     const a = normalizeArticle(raw);
     const author = getPersona(a.authorId);
+    const href = a.id ? `/article.html?id=${a.id}` : '#';
     return `
-      <div class="article-card">
+      <a class="article-card" href="${href}" style="text-decoration:none">
         <div class="article-card-meta">
           <span class="badge ${a.badge}">${a.category}</span>
           <span class="article-card-date">${a.date}</span>
@@ -137,7 +139,7 @@ function renderArticles(filter) {
           </div>
           <span class="read-time">${a.readTime}</span>
         </div>
-      </div>
+      </a>
     `;
   }).join('');
 }

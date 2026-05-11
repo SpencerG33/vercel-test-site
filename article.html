@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article — Tapwatr Dynasty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .article-page { padding: 4rem 0 6rem; }
+    .article-page .container { max-width: 760px; }
+    .article-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+    }
+    .article-back:hover { color: var(--text); }
+    .article-header { margin-bottom: 2.5rem; }
+    .article-header .badge { margin-bottom: 1rem; }
+    .article-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.03em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    .article-byline {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .article-byline .author-avatar {
+      width: 44px;
+      height: 44px;
+      font-size: 0.75rem;
+    }
+    .byline-name { font-weight: 700; font-size: 0.95rem; }
+    .byline-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.1rem; }
+    .article-body {
+      margin-top: 2.5rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+    }
+    .article-body p { margin-bottom: 1.5rem; }
+    .article-body p:last-child { margin-bottom: 0; }
+    .article-excerpt-lead {
+      font-size: 1.2rem;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .article-loading { padding: 6rem 0; text-align: center; color: var(--text-muted); }
+    .article-error { padding: 6rem 0; text-align: center; }
+    .article-error h2 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+  <div class="ticker">
+    <div class="ticker-label">TAPWATR DYNASTY</div>
+    <div class="ticker-track">
+      <div class="ticker-content">
+        <span>TAPWATR DYNASTY</span><span class="dot">·</span>
+        <span>FANTASY FOOTBALL COVERAGE</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+        <span>TAPWATR DYNASTY</span><span class="dot">·</span>
+        <span>FANTASY FOOTBALL COVERAGE</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">
+        <div class="logo-icon">TD</div>
+        <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+      </a>
+      <nav>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about.html" class="nav-link">Writers</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="article-content">
+    <div class="article-loading">
+      <div class="container">Loading article...</div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="logo">
+          <div class="logo-icon">TD</div>
+          <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+        </div>
+        <p>Not responsible for broken friendships, damaged egos, or irrational player loyalty.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/about.html">Writers</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+        <p class="footer-credit">Powered by Sleeper Fantasy · Built with ☕ and spite</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const personas = window._personas || [];
+
+    function getPersonaFromApp(id) {
+      const all = [
+        { id: 'bigrick', name: 'Big Rick Fernandez', title: "The Commissioner's Voice", initials: 'BRF', color: '#5b9cf6', bg: 'rgba(91,156,246,0.15)' },
+        { id: 'anita',   name: "Anita O'Dds",        title: 'The Quantifier',            initials: 'AO',  color: '#f5b942', bg: 'rgba(245,185,66,0.15)' },
+        { id: 'dtrain',  name: '"D-Train" Marcus Davis', title: 'The Insider',           initials: 'MD',  color: '#a78bfa', bg: 'rgba(167,139,250,0.15)' },
+        { id: 'janitor', name: 'The Janitor',         title: 'Cleaning Up Messes Since Season 1', initials: '???', color: '#f87171', bg: 'rgba(248,113,113,0.15)' },
+        { id: 'coach',   name: 'Coach T. Kowalski',   title: 'The Strategist',            initials: 'TK',  color: '#2dd4bf', bg: 'rgba(45,212,191,0.15)' },
+      ];
+      return all.find(p => p.id === id) || all[0];
+    }
+
+    function formatDate(str) {
+      return new Date(str).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    async function loadArticle() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const el = document.getElementById('article-content');
+
+      if (!id) {
+        el.innerHTML = `<div class="article-error container"><h2>Article not found</h2><p><a href="/" style="color:var(--green)">Back to home</a></p></div>`;
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/article?id=${id}`);
+        if (!res.ok) throw new Error('Not found');
+        const article = await res.json();
+        const author = getPersonaFromApp(article.author_id);
+        const badgeClass = article.badge || 'badge-blue';
+
+        document.title = `${article.title} — Tapwatr Dynasty`;
+
+        const bodyHtml = article.content
+          ? article.content.split('\n\n').map(p => `<p>${p}</p>`).join('')
+          : `<p>${article.excerpt}</p>`;
+
+        el.innerHTML = `
+          <section class="article-page">
+            <div class="container">
+              <a href="/" class="article-back">← Back to all articles</a>
+              <div class="article-header">
+                <span class="badge ${badgeClass}">${article.category}</span>
+                <h1 class="article-title">${article.title}</h1>
+                <div class="article-byline">
+                  <div class="author-avatar" style="background:${author.bg};color:${author.color}">${author.initials}</div>
+                  <div>
+                    <div class="byline-name">${author.name}</div>
+                    <div class="byline-meta">${author.title} &nbsp;·&nbsp; ${formatDate(article.published_at)}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="article-excerpt-lead">${article.excerpt}</div>
+              <div class="article-body">${article.content ? bodyHtml : ''}</div>
+            </div>
+          </section>
+        `;
+      } catch (e) {
+        el.innerHTML = `<div class="article-error"><div class="container"><h2>Couldn't load this article</h2><p style="color:var(--text-muted);margin-bottom:1.5rem">It may have been removed or the link is broken.</p><a href="/" style="color:var(--green)">Back to home</a></div></div>`;
+      }
+    }
+
+    loadArticle();
+  </script>
+</body>
+</html>
