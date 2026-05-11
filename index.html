@@ -3,30 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vercel Test Site</title>
+  <title>Tapwatr Dynasty — Fantasy Football Coverage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <div class="ticker">
+    <div class="ticker-label">TAPWATR DYNASTY</div>
+    <div class="ticker-track">
+      <div class="ticker-content" id="ticker-content">
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+        <span>GrubDubz</span><span class="dot">·</span>
+        <span>Indiana Jones</span><span class="dot">·</span>
+        <span>Mr. Unlimited 2.0</span><span class="dot">·</span>
+        <span>Love Chasing Hookers</span><span class="dot">·</span>
+        <span>RIP OJ</span><span class="dot">·</span>
+        <span>Vivek Ranadivé</span><span class="dot">·</span>
+        <span>The Mandalorian Dentist</span><span class="dot">·</span>
+        <span>Playbook of Eli</span><span class="dot">·</span>
+        <span>Elic my Loveland</span><span class="dot">·</span>
+        <span>Gym Class Hero's</span><span class="dot">·</span>
+        <span>bigspence</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+        <span>GrubDubz</span><span class="dot">·</span>
+        <span>Indiana Jones</span><span class="dot">·</span>
+        <span>Mr. Unlimited 2.0</span><span class="dot">·</span>
+        <span>Love Chasing Hookers</span><span class="dot">·</span>
+        <span>RIP OJ</span><span class="dot">·</span>
+        <span>Vivek Ranadivé</span><span class="dot">·</span>
+        <span>The Mandalorian Dentist</span><span class="dot">·</span>
+        <span>Playbook of Eli</span><span class="dot">·</span>
+        <span>Elic my Loveland</span><span class="dot">·</span>
+        <span>Gym Class Hero's</span><span class="dot">·</span>
+        <span>bigspence</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/">Vercel Test Site</a>
+      <a href="/" class="logo">
+        <div class="logo-icon">TD</div>
+        <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+      </a>
       <nav>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/" class="nav-link active">Home</a>
+        <a href="/about.html" class="nav-link">Writers</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
     </div>
   </header>
 
-  <main class="hero">
+  <section class="hero">
     <div class="container">
-      <h1>Launch your first website with Vercel</h1>
-      <p>Welcome to your new static site. This project is ready for commits, deploys, and automatic Git-based workflows.</p>
-      <p style="font-size: 0.95rem; opacity: 0.8; margin-top: 0.5rem;">Auto-deployed by SpencerG33 ✨</p>
-      <div class="actions">
-        <a class="button" href="/about.html">Learn More</a>
-        <a class="button button-secondary" href="/contact.html">Get in Touch</a>
+      <div class="hero-content">
+        <div class="hero-eyebrow">12 TEAMS · 4 DIVISIONS · 1 DYNASTY</div>
+        <h1 class="hero-title">Where<br><span class="highlight">Legends</span><br>Are Made</h1>
+        <p class="hero-desc">Daily fantasy football coverage from the most competitive dynasty league you've never heard of. Real analysis. Real trash talk. Real stakes.</p>
+        <div class="hero-actions">
+          <a href="#articles" class="btn btn-primary">Read Latest</a>
+          <a href="/about.html" class="btn btn-ghost">Meet the Writers</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number">12</div>
+          <div class="stat-label">TEAMS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4</div>
+          <div class="stat-label">DIVISIONS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5</div>
+          <div class="stat-label">WRITERS</div>
+        </div>
       </div>
     </div>
-  </main>
+  </section>
+
+  <section class="featured-article-section">
+    <div class="container">
+      <div class="section-label">FEATURED</div>
+      <div id="featured-article"></div>
+    </div>
+  </section>
+
+  <section class="articles-section" id="articles">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="section-label">LATEST</div>
+          <h2 class="section-title" style="margin-bottom: 0;">COVERAGE</h2>
+        </div>
+        <div class="category-filters" id="category-filters"></div>
+      </div>
+      <div class="articles-grid" id="articles-grid"></div>
+    </div>
+  </section>
+
+  <section class="league-section">
+    <div class="container">
+      <div class="section-label">THE LEAGUE</div>
+      <h2 class="section-title">TAPWATR DYNASTY</h2>
+      <div id="divisions-grid" class="divisions-grid">
+        <div class="loading">Loading league data from Sleeper...</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="logo">
+          <div class="logo-icon">TD</div>
+          <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+        </div>
+        <p>Not responsible for broken friendships, damaged egos, or irrational player loyalty.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/about.html">Writers</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+        <p class="footer-credit">Powered by Sleeper Fantasy · Built with ☕ and spite</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>

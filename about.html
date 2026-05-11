@@ -3,26 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About | Vercel Test Site</title>
+  <title>Writers — Tapwatr Dynasty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <div class="ticker">
+    <div class="ticker-label">TAPWATR DYNASTY</div>
+    <div class="ticker-track">
+      <div class="ticker-content">
+        <span>5 WRITERS</span><span class="dot">·</span>
+        <span>ZERO MERCY</span><span class="dot">·</span>
+        <span>DAILY COVERAGE</span><span class="dot">·</span>
+        <span>SEASON 2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+        <span>5 WRITERS</span><span class="dot">·</span>
+        <span>ZERO MERCY</span><span class="dot">·</span>
+        <span>DAILY COVERAGE</span><span class="dot">·</span>
+        <span>SEASON 2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/">Vercel Test Site</a>
+      <a href="/" class="logo">
+        <div class="logo-icon">TD</div>
+        <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+      </a>
       <nav>
-        <a href="/">Home</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about.html" class="nav-link active">Writers</a>
+        <a href="/contact.html" class="nav-link">Contact</a>
       </nav>
     </div>
   </header>
-  <main class="hero">
+
+  <section class="page-hero">
     <div class="container">
-      <h1>About this project</h1>
-      <p>This site is a simple static project deployed on Vercel. It uses plain HTML and CSS, and it is ready to be extended with new pages, scripts, or frameworks.</p>
-      <p>Next steps include adding a Git repository, connecting to a Git provider, and enabling automatic deployments on every push.</p>
-      <a class="button" href="/contact.html">Contact Me</a>
+      <div class="section-label">MEET THE TEAM</div>
+      <h1 class="page-title">THE<br><span style="color: var(--green)">WRITERS</span></h1>
+      <p class="page-desc">Every great dynasty needs a voice. We've got five. Each one with an agenda, a style, and a deeply personal relationship with fantasy football. Welcome to the editorial board.</p>
     </div>
-  </main>
+  </section>
+
+  <section class="personas-section">
+    <div class="container">
+      <div class="personas-grid" id="personas-grid"></div>
+    </div>
+  </section>
+
+  <section class="league-history">
+    <div class="container">
+      <div class="section-label">ABOUT THE LEAGUE</div>
+      <div class="history-grid">
+        <div class="history-content">
+          <h3>THE TAPWATR DYNASTY</h3>
+          <p>What started as twelve guys who probably spend too much time thinking about football has evolved into one of the most competitive dynasty leagues you've never heard of. Tapwatr Dynasty is a 12-team, 4-division monster with deep rosters, taxi squads, and enough trade drama to keep five writers busy year-round.</p>
+          <p>Dynasty means you keep your players. It also means you live with your mistakes. That running back you drafted three years ago who hasn't scored since? Still on your roster. This league has a long memory.</p>
+          <p>Coverage is powered by five distinct voices who bring radically different perspectives on the same twelve rosters. Agree with none of them. Trust all the data.</p>
+        </div>
+        <div class="history-stats">
+          <div class="history-stat">
+            <div class="history-stat-num">12</div>
+            <div class="history-stat-label">TEAMS</div>
+          </div>
+          <div class="history-stat">
+            <div class="history-stat-num">4</div>
+            <div class="history-stat-label">DIVISIONS</div>
+          </div>
+          <div class="history-stat">
+            <div class="history-stat-num">5</div>
+            <div class="history-stat-label">WRITERS</div>
+          </div>
+          <div class="history-stat">
+            <div class="history-stat-num">2026</div>
+            <div class="history-stat-label">CURRENT SEASON</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="logo">
+          <div class="logo-icon">TD</div>
+          <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+        </div>
+        <p>Not responsible for broken friendships, damaged egos, or irrational player loyalty.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/about.html">Writers</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+        <p class="footer-credit">Powered by Sleeper Fantasy · Built with ☕ and spite</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>

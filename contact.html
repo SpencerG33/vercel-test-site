@@ -3,26 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact | Vercel Test Site</title>
+  <title>Contact — Tapwatr Dynasty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <div class="ticker">
+    <div class="ticker-label">TAPWATR DYNASTY</div>
+    <div class="ticker-track">
+      <div class="ticker-content">
+        <span>TAPWATR DYNASTY</span><span class="dot">·</span>
+        <span>FANTASY FOOTBALL COVERAGE</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+        <span>TAPWATR DYNASTY</span><span class="dot">·</span>
+        <span>FANTASY FOOTBALL COVERAGE</span><span class="dot">·</span>
+        <span>2026 DRAFT IN PROGRESS</span><span class="dot">·</span>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/">Vercel Test Site</a>
+      <a href="/" class="logo">
+        <div class="logo-icon">TD</div>
+        <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+      </a>
       <nav>
-        <a href="/">Home</a>
-        <a href="/about.html">About</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about.html" class="nav-link">Writers</a>
+        <a href="/contact.html" class="nav-link active">Contact</a>
       </nav>
     </div>
   </header>
-  <main class="hero">
+
+  <section class="page-hero">
     <div class="container">
-      <h1>Stay in touch</h1>
-      <p>If you'd like to continue building this site, your next step is to push it to Git and connect automatic deploys through Vercel.</p>
-      <p>Email: <a href="mailto:hello@example.com">hello@example.com</a></p>
-      <a class="button" href="/">Back Home</a>
+      <div class="section-label">GET IN TOUCH</div>
+      <h1 class="page-title">CONTACT</h1>
+      <p class="page-desc">Have a trade offer the writers should know about? Think a power ranking is wrong? The editorial board is standing by — or at least one of them is.</p>
     </div>
-  </main>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <div class="contact-card">
+            <h3>The League</h3>
+            <p>Tapwatr Dynasty is a 12-team, 4-division dynasty fantasy football league operating on the Sleeper platform. Live data is pulled directly from the Sleeper API.</p>
+          </div>
+          <div class="contact-card">
+            <h3>Submit a Trade Tip</h3>
+            <p>If there's a move happening that D-Train should know about, drop it in the league chat on Sleeper. He's always watching. He never sleeps.</p>
+          </div>
+          <div class="contact-card">
+            <h3>Corrections &amp; Complaints</h3>
+            <p>Think a ranking is wrong? Send your complaint to The Janitor. He will not respond but he will read it and add it to the wall.</p>
+          </div>
+        </div>
+        <div>
+          <div class="contact-card">
+            <h3>League Info</h3>
+            <p><strong>Platform:</strong> Sleeper</p>
+            <p><strong>Format:</strong> Dynasty, 12 Teams, 4 Divisions</p>
+            <p><strong>Scoring:</strong> Half PPR + Bonus Settings</p>
+            <p><strong>Roster:</strong> QB, 2 RB, 3 WR, TE, 2 FLEX + 18 bench</p>
+            <p><strong>Taxi Squad:</strong> 3 players</p>
+            <p><strong>Reserve Slots:</strong> 2 players</p>
+            <p><strong>Draft Rounds:</strong> 5 rounds annually</p>
+            <p><strong>Divisions:</strong> 2 Dads 1 Dynasty · FF Foreplay Federation · Tight End Enthusiasts · Backdoor Grind Gang</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-left">
+        <div class="logo">
+          <div class="logo-icon">TD</div>
+          <span class="logo-text">TAPWATR <span class="logo-accent">DYNASTY</span></span>
+        </div>
+        <p>Not responsible for broken friendships, damaged egos, or irrational player loyalty.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/about.html">Writers</a>
+          <a href="/contact.html">Contact</a>
+        </div>
+        <p class="footer-credit">Powered by Sleeper Fantasy · Built with ☕ and spite</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
